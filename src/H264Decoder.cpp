@@ -2,9 +2,7 @@
 //#define FROM_FILE
 CDecoder::CDecoder()
 {
-    //av_register_all();
     avcodec_register_all();
-    //avformat_network_init();
     pFormatCtx = avformat_alloc_context();
     packet = (AVPacket *)av_malloc(sizeof(AVPacket));
 
@@ -64,6 +62,11 @@ CDecoder::~CDecoder()
     avcodec_close(pCodecCtx);
     av_free(pCodecCtx);
     av_frame_free(&pFrame);
+
+    if (packet != NULL)
+    {
+        delete packet;
+    }
 }
 
 int CDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut, int nOutSize)
