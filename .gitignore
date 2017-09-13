@@ -1,6 +1,5 @@
 *.sdf
 *.suo
-*.dll
 *.exe
 *.pdb
 *.log
