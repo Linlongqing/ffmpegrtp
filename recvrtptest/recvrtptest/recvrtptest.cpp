@@ -75,7 +75,7 @@ int main(void)
 
     RTPUDPv4TransmissionParams transparams;
     RTPSessionParams sessparams;
-    sessparams.SetOwnTimestampUnit(1.0 / 10.0);
+    sessparams.SetOwnTimestampUnit(1.0 / 9000.0);
 
     sessparams.SetAcceptOwnPackets(true);
 

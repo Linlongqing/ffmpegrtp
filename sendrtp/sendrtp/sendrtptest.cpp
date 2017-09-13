@@ -161,11 +161,8 @@ int main(void)
     sess.SetDefaultPayloadType(96);
     sess.SetDefaultMark(true);
 
-    int pos = 4;
-    int header_flag = 1;
-    uint8_t buff[1024 * 100] = { 0 };
-
     CEncoder encoder(640, 480);  //width=640,height=480;
+
     while (1)
     {
         pCVFrame = cvQueryFrame(pCapture);
@@ -178,38 +175,8 @@ int main(void)
             break;  
         }
         encoder.Encode(image.data);
-        int dataSize = encoder.packet.size;
-        memcpy(&buff[pos], encoder.packet.data, dataSize);
+        sender.SendH264Nalu(&sess, encoder.packet.data, encoder.packet.size);
         encoder.FreePacket();
-
-        //buff[pos++] = fgetc(fd);
-
-
-        if ((buff[pos + 3] == 1) && (buff[pos + 2] == 0) && (buff[pos + 1] == 0) && (buff[pos] == 0))   //4 Byte
-        {
-            printf("$:%d\n", pos);
-            sender.SendH264Nalu(&sess, buff, dataSize);
-            buff[0] = 0x00;
-            buff[1] = 0x00;
-            buff[2] = 0x00;
-            buff[3] = 0x01;
-            pos = 4;
-            RTPTime::Wait(0.03);
-        }
-        else
-        {
-            if ((buff[pos + 2] == 1) && (buff[pos + 1] == 0) && (buff[pos + 0] == 0))    //3 Byte
-            {
-				printf("$$:%d\n", pos);
-                sender.SendH264Nalu(&sess, buff, dataSize);
-                buff[0] = 0x00;
-                buff[1] = 0x00;
-                buff[3] = 0x01;
-                pos = 3;
-
-                RTPTime::Wait(0.03);
-            }
-        }
     }
 /*    if (pos != 0)
     {
