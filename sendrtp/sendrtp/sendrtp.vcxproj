@@ -128,10 +128,12 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Encoder.cpp" />
+    <ClCompile Include="SendRTP.cpp" />
     <ClCompile Include="sendrtptest.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Encoder.h" />
+    <ClInclude Include="SendRTP.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">
