@@ -74,7 +74,7 @@
     <LibraryPath>../../3rdparty/lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>../../3rdparty/include;E:\process\c++\ffmpegjrtp\src;C:\krenv\3rdparty\include;$(IncludePath)</IncludePath>
+    <IncludePath>../../3rdparty/include;D:\work\ffmpegrtp\src;C:\krenv\3rdparty\include;$(IncludePath)</IncludePath>
     <LibraryPath>../../3rdparty/lib;C:\krenv\3rdparty\x64\opencv\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">

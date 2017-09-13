@@ -165,7 +165,7 @@ int main(void)
     int header_flag = 1;
     uint8_t buff[1024 * 100] = { 0 };
 
-    CEncoder encoder(640, 480);
+    CEncoder encoder(640, 480);  //width=640,height=480;
     while (1)
     {
         pCVFrame = cvQueryFrame(pCapture);
@@ -175,7 +175,7 @@ int main(void)
         char c = cv::waitKey(33);
         if (c == 'q')
         {
-            break;
+            break;  
         }
         encoder.Encode(image.data);
         int dataSize = encoder.packet.size;
@@ -185,7 +185,7 @@ int main(void)
         //buff[pos++] = fgetc(fd);
 
 
-        if ((buff[pos + 3] == 1) && (buff[pos + 2] == 0) && (buff[pos + 1] == 0) && (buff[pos] == 0))
+        if ((buff[pos + 3] == 1) && (buff[pos + 2] == 0) && (buff[pos + 1] == 0) && (buff[pos] == 0))   //4 Byte
         {
             printf("$:%d\n", pos);
             sender.SendH264Nalu(&sess, buff, dataSize);
@@ -198,9 +198,10 @@ int main(void)
         }
         else
         {
-            if ((buff[pos - 1] == 1) && (buff[pos - 2] == 0) && (buff[pos - 3] == 0))
+            if ((buff[pos + 2] == 1) && (buff[pos + 1] == 0) && (buff[pos + 0] == 0))    //3 Byte
             {
-                sender.SendH264Nalu(&sess, buff, pos - 3);
+				printf("$$:%d\n", pos);
+                sender.SendH264Nalu(&sess, buff, dataSize);
                 buff[0] = 0x00;
                 buff[1] = 0x00;
                 buff[3] = 0x01;
