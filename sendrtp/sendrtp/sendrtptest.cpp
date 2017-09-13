@@ -65,7 +65,7 @@ void MyRTPSession::SendH264Nalu(RTPSession* sess, uint8_t *h264buf, int buflen){
     uint8_t *pSendbuf;
 
     pSendbuf = h264buf;
-    if (buflen <= MAXLEN)
+    if (buflen <= MAXLEN)   //dataSize 小于最大长度
     {
         sess->SetDefaultMark(true);
         status = sess->SendPacket((void *)&pSendbuf[0], buflen);
@@ -73,7 +73,7 @@ void MyRTPSession::SendH264Nalu(RTPSession* sess, uint8_t *h264buf, int buflen){
         printf("send_packt 0 len = %d\n", buflen);
 
     }
-    else if (buflen > MAXLEN)
+    else if (buflen > MAXLEN)   //dataSize 大于最大长度
     {
         int send_packet = 0;
         int all_packet = 0;
@@ -131,22 +131,22 @@ int main(void)
     IplImage* pCVFrame = NULL;
     cv::Mat image;
 
-    int i;
-    int num;
+    //int i;
+   // int num;
     int status;
 
     RTPSession sess;
     MyRTPSession sender;
-    uint16_t portbase = 6666;
+    uint16_t portbase = 6666;  //local portbase
     uint16_t destport = 6664;
-    uint8_t destip[] = { 127, 0, 0, 1 };
+    uint8_t destip[] = { 127, 0, 0, 1 };   //目标IP地址
 
-    RTPUDPv4TransmissionParams transparams;
-    RTPSessionParams sessparams;
+    RTPUDPv4TransmissionParams transparams;   //传输参数
+    RTPSessionParams sessparams;  //会话参数
 
     // set h264 param
     sessparams.SetUsePredefinedSSRC(true);  //设置使用预先定义的SSRC
-    sessparams.SetOwnTimestampUnit(1.0 / 9000.0); // 设置采样间隔
+    sessparams.SetOwnTimestampUnit(1.0 / 9000.0); // 设置采样间隔，1.0/9000.0表示一秒采样9000个samples，一定要设置，否则RTCP Sender 会计算出错
     sessparams.SetAcceptOwnPackets(true);   //接收自己发送的数据包
 
     transparams.SetPortbase(portbase);
@@ -159,7 +159,7 @@ int main(void)
 
     sess.SetDefaultTimestampIncrement(3600);// 设置时间戳增加间隔
     sess.SetDefaultPayloadType(96);
-    sess.SetDefaultMark(true);
+    sess.SetDefaultMark(true);//重要事件标志
 
     CEncoder encoder(640, 480);  //width=640,height=480;
 
