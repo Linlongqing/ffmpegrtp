@@ -1,16 +1,10 @@
-/*=============================================================================
-*     FileName: receive.cpp
-*         Desc: reveive h.264 from RTP server
-*       Author: licaibiao
-*   LastChange: 2017-04-22
-* =============================================================================*/
-
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include "H264Decoder.h"
 #include "ReceiveRTP.h"
+#include <opencv2/opencv.hpp>
 
 #ifdef _WIN32
 #include <winsock2.h>  

@@ -32,9 +32,9 @@ class SendRTP{
 public:
     jrtplib::RTPSession sess;
 
-	SendRTP(void);
-	~SendRTP(void);
+    SendRTP(void);
+    ~SendRTP(void);
     void CheckError(int rtperr);
-	void SendH264Nalu(uint8_t* m_h264Buf, int buflen);
-	void init(void);
+    void SendH264Nalu(uint8_t* m_h264Buf, int buflen);
+    void init(void);
 };

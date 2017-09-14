@@ -1,3 +1,11 @@
+/****************************************************************************
+filename:           H264Decoder.h
+Author:             linlongqing
+Date:               2017/9/12
+Discription:
+
+****************************************************************************/
+
 #ifndef __DECODER_H
 #define __DECODER_H
 #include <stdio.h>

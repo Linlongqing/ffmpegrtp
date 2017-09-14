@@ -1,7 +1,12 @@
+/****************************************************************************
+filename:           SendRTP.h
+Author:             linshufei
+Date:               2017/9/13
+Discription:
+
+*****************************************************************************/
 #ifndef ENCODER_H
 #define ENCODER_H
-
-#define __STDC_CONSTANT_MACROS  
 
 #ifdef _WIN32  
 //Windows  
@@ -38,10 +43,8 @@ private:
 
     //encoder message
     AVCodec* pCodec = NULL;
-    AVStream* pVideoSt = NULL;
     AVDictionary *param = NULL;
     AVCodecContext* pCodecCtx = NULL;
-    AVFormatContext* pFormatCtx = NULL;
 
 public:
     AVPacket packet;

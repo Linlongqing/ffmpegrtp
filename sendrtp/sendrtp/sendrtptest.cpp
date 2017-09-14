@@ -19,7 +19,7 @@ int main(void)
 	{
 		pCVFrame = cvQueryFrame(pCapture);
 		image = cv::Mat(pCVFrame);
-		cv::cvtColor(image, image, CV_BGR2YUV_YV12);
+		cv::cvtColor(image, image, CV_BGR2YUV_I420);
 		cv::imshow("image", image);
 
 		char c = cv::waitKey(33);
