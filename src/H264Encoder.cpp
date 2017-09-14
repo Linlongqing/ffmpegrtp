@@ -69,8 +69,7 @@ CEncoder::CEncoder(int width, int height)
 
 CEncoder::~CEncoder()
 {
-
-
+    avcodec_close(pCodecCtx);
     av_free(pFrame);
     av_free(pictureBuf);
 }

@@ -53,7 +53,6 @@ void SendRTP::SendH264Nalu(uint8_t *h264buf, int bufLen){
                 sess.SetDefaultMark(false);
                 status = sess.SendPacket((void *)&pSendBuf[sendPacket * MAXLEN], MAXLEN);
                 CheckError(status);
-                //printf("send_packet = %d \n",send_packet);
                 sendPacket++;
             }
             /* the last packet */
@@ -73,7 +72,6 @@ void SendRTP::SendH264Nalu(uint8_t *h264buf, int bufLen){
                 status = sess.SendPacket((void *)&pSendBuf[sendPacket * MAXLEN], iSendLen);
                 CheckError(status);
                 sendPacket++;
-                //printf("send_packet = %d \n",send_packet);
             }
         }
     }
@@ -99,7 +97,7 @@ void SendRTP::init(void)
 
     // set h264 param
     sessParams.SetUsePredefinedSSRC(true);  //设置使用预先定义的SSRC
-    sessParams.SetOwnTimestampUnit(1.0 / 9000.0); // 设置采样间隔，1.0/9000.0表示一秒采样9000个samples，一定要设置，否则RTCP Sender 会计算出错
+    sessParams.SetOwnTimestampUnit(1.0 / 90000.0); // 设置采样间隔，1.0/9000.0表示一秒采样9000个samples，一定要设置，否则RTCP Sender 会计算出错
     sessParams.SetAcceptOwnPackets(true);   //接收自己发送的数据包
 
     transParams.SetPortbase(portBase);

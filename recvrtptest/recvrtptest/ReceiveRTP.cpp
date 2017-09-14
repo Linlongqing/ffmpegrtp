@@ -16,7 +16,7 @@ ReceiveRTP::ReceiveRTP()
 {
     pos = 0;
     portBase = 6664;
-    timeStampUnit = 1.0 / 9000.0;
+    timeStampUnit = 1.0 / 90000.0;
 }
 
 void ReceiveRTP::Init()

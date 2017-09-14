@@ -158,6 +158,7 @@ int main()
                 }
             } while (receive.GotoNextSourceWithData());
         }
+        Sleep(1);
     }
 
     receive.Destroy();
