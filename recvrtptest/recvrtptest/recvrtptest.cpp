@@ -4,17 +4,13 @@
 *       Author: licaibiao
 *   LastChange: 2017-04-22
 * =============================================================================*/
-#include "jrtp/rtpsession.h"
-#include "jrtp/rtpudpv4transmitter.h"
-#include "jrtp/rtpipv4address.h"
-#include "jrtp/rtpsessionparams.h"
-#include "jrtp/rtperrors.h"
-#include "jrtp/rtppacket.h"
+
 #include <stdlib.h>
 #include <stdio.h>
 #include <iostream>
 #include <string>
 #include "H264Decoder.h"
+#include "ReceiveRTP.h"
 
 #ifdef _WIN32
 #include <winsock2.h>  
@@ -51,6 +47,7 @@ extern "C"
 
 using namespace jrtplib;
 
+#if 0
 void checkerror(int rtperr)
 {
     if (rtperr < 0)
@@ -85,16 +82,13 @@ int main(void)
 
     sess.BeginDataAccess();
     RTPTime delay(0.001);
-    RTPTime starttime = RTPTime::CurrentTime();
 
-    FILE *fd;
     size_t len;
     uint8_t *loaddata;
     RTPPacket *pack;
     uint8_t buff[1024 * 100] = { 0 };
     int pos = 0;
 
-    fd = fopen("./test_recv.h264", "wb+");
     CDecoder decoder;
     while (!done)
     {
@@ -116,7 +110,6 @@ int main(void)
                         if (pack->HasMarker()) // the last packet
                         {
                             memcpy(&buff[pos], loaddata, len);
-                            fwrite(buff, 1, pos + len, fd);
                             decoder.Decode(buff, pos + len, NULL, 1);
                             pos = 0;
                         }
@@ -137,12 +130,7 @@ int main(void)
         }
 
         RTPTime::Wait(delay);
-        RTPTime t = RTPTime::CurrentTime();
-        t -= starttime;
-        //if (t > RTPTime(40.0))
-        //done = true;
     }
-    fclose(fd);
 
     sess.EndDataAccess();
     delay = RTPTime(10.0);
@@ -150,3 +138,35 @@ int main(void)
 
     return 0;
 }
+#else
+int main()
+{
+    CDecoder decoder;
+    ReceiveRTP receive;
+
+    cv::Mat image(480, 640, CV_8UC1);
+    receive.Init();
+
+    while (1)
+    {
+        if (receive.GetFirstSourceWithData())
+        {
+            do
+            {
+                int size = receive.GetH264Packet();
+                if (size)
+                {
+                    if (!decoder.Decode(receive.pBuff, size, image.data))
+                    {
+                        cv::imshow("image", image);
+                        cv::waitKey(33);
+                    }
+                }
+            } while (receive.GotoNextSourceWithData());
+        }
+    }
+
+    receive.Destroy();
+}
+
+#endif

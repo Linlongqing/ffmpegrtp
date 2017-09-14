@@ -1,4 +1,16 @@
+/****************************************************************************
+filename:           SendRTP.cpp
+Author:             linshufei
+Date:               2017/9/13
+Discription:
+
+*****************************************************************************/
 #include "SendRTP.h"
+#include <iostream>
+
+using namespace jrtplib;
+
+
 #define MAXLEN	(RTP_DEFAULTPACKETSIZE - 100)
 
 SendRTP::SendRTP(void){}

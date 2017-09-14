@@ -66,7 +66,7 @@
   </ImportGroup>
   <PropertyGroup Label="UserMacros" />
   <PropertyGroup Condition="'$(Configuration)|$(Platform)'=='Release|x64'">
-    <IncludePath>../../3rdparty/include;D:\work\ffmpegrtp\src;C:\krenv\3rdparty\include;$(IncludePath)</IncludePath>
+    <IncludePath>../../3rdparty/include;../../src;C:\krenv\3rdparty\include;$(IncludePath)</IncludePath>
     <LibraryPath>../../3rdparty/lib;C:\krenv\3rdparty\x64\opencv\lib;$(LibraryPath)</LibraryPath>
   </PropertyGroup>
   <ItemDefinitionGroup Condition="'$(Configuration)|$(Platform)'=='Debug|Win32'">
@@ -120,9 +120,11 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Decoder.h" />
+    <ClInclude Include="ReceiveRTP.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Decoder.cpp" />
+    <ClCompile Include="ReceiveRTP.cpp" />
     <ClCompile Include="recvrtptest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

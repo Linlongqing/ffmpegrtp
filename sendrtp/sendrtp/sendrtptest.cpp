@@ -1,8 +1,6 @@
-/*
-Here's a small IPv4 example: it asks for a portbase and a destination and
-starts sending packets to that destination.
-*/
 #include "SendRTP.h"
+#include "H264Encoder.h"
+#include <opencv2/opencv.hpp>
 
 int main(void)
 {
@@ -34,7 +32,7 @@ int main(void)
 		encoder.FreePacket();
 	}
 
-	rtp.sess.BYEDestroy(RTPTime(10, 0), 0, 0);
+    rtp.sess.BYEDestroy(jrtplib::RTPTime(10, 0), 0, 0);
     return 0;
 }
 

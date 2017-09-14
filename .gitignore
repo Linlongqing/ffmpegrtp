@@ -6,3 +6,5 @@
 *.obj
 *.tlog
 *.opensdf
+*.h264
+*.h265

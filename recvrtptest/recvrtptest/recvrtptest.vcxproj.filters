@@ -18,12 +18,18 @@
     <ClInclude Include="..\..\src\H264Decoder.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="ReceiveRTP.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Decoder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="recvrtptest.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReceiveRTP.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

@@ -1,7 +1,6 @@
 #ifndef __DECODER_H
 #define __DECODER_H
 #include <stdio.h>
-#include <opencv2/opencv.hpp>
 
 #define __STDC_CONSTANT_MACROS
 
@@ -43,7 +42,7 @@ private:
 public:
     CDecoder();
     ~CDecoder();
-    int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut, int nOutSize);
+    int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
 };
 
 #endif
