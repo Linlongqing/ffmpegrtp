@@ -1,7 +1,5 @@
 #include "JPEGDecoder.h"
 
-
-
 JPEGDecoder::JPEGDecoder()
 {
 	avcodec_register_all();
@@ -20,7 +18,7 @@ JPEGDecoder::JPEGDecoder()
 		printf("Fail to get decoder context !\n");
 	}
 
-	pCodecCtx->pix_fmt = AV_PIX_FMT_YUV420P;
+	pCodecCtx->pix_fmt = AV_PIX_FMT_YUVJ444P;
 	pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
 
 	if (avcodec_open2(pCodecCtx, pCodec, NULL) < 0)
@@ -29,6 +27,11 @@ JPEGDecoder::JPEGDecoder()
 	}
 
 	pFrame = av_frame_alloc();
+    int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+    uint8_t *buffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
+
+    avpicture_fill((AVPicture *)pFrame, buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
+
 
 	frameCount = 0;
 }
@@ -52,6 +55,7 @@ int JPEGDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
 
 	int gotPicture;
 	int ret = avcodec_decode_video2(pCodecCtx, pFrame, &gotPicture, packet);
+
 	if (ret < 0)
 	{
 		printf("Decode Error.\n");

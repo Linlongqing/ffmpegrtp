@@ -60,8 +60,9 @@ int main()
 
 	JPEGDecoder decoder;
 	CJPEGEncoder encoder;
-	encoder.GetSize(in_w, in_h);
+	encoder.SetSize(in_w, in_h);
 	encoder.Encoder(srcImage.data);
+
 	decoder.Decode(encoder.packet.data,encoder.packet.size,NULL);
 	int width;
 	int height;

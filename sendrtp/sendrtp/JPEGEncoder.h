@@ -37,7 +37,7 @@ public:
 	CJPEGEncoder(){};
 	~CJPEGEncoder(){};
 	int Encoder(unsigned char* data);
-	int GetSize(int width, int height);
+	int SetSize(int width, int height);
 	int FreePacket();
 private:
 	int inW;
