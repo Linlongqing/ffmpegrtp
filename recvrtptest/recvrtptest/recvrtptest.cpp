@@ -138,7 +138,29 @@ int main()
     CDecoder decoder;
     ReceiveRTP receive;
 
-    cv::Mat image(480, 640, CV_8UC1);
+	//Receive an Image from client
+	//receive.Init();
+	//
+	//if (receive.GetFirstSourceWithData())
+	//{
+	//	int size = receive.GetH264Packet();
+	//	if (size)
+	//	{
+	//		if (!decoder.Decode(receive.pBuff, size, NULL))
+	//		{
+	//			int width;
+	//			int height;
+	//			decoder.GetSize(width, height);
+	//			cv::Mat dstImage(cv::Size(width,height), CV_8UC1);
+	//			decoder.GetData(dstImage.data);
+	//			cv::imshow("dstImage", dstImage);
+	//			cv::waitKey(0);
+	//		}
+	//	}
+	//}
+
+
+	 //Receive a audio/video stream from client
     receive.Init();
 
     while (1)
@@ -150,10 +172,17 @@ int main()
                 int size = receive.GetH264Packet();
                 if (size)
                 {
-                    if (!decoder.Decode(receive.pBuff, size, image.data))
+                    if (!decoder.Decode(receive.pBuff, size, NULL))
                     {
+						int width;
+						int height;
+						decoder.GetSize(width, height);
+						cv::Mat image(cv::Size(width, height), CV_8UC1);
+						decoder.GetData(image.data);
+
                         cv::imshow("image", image);
                         cv::waitKey(33);
+						std::cout << "Lena is coming!" << std::endl;
                     }
                 }
             } while (receive.GotoNextSourceWithData());
@@ -162,6 +191,8 @@ int main()
     }
 
     receive.Destroy();
+
+	return 0;
 }
 
 #endif

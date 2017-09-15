@@ -77,6 +77,64 @@ void SendRTP::SendH264Nalu(uint8_t *h264buf, int bufLen){
     }
 }
 
+void SendRTP::SendJPEG(uint8_t* JPEGBuf, int bufLen)
+{
+	int status;
+	uint8_t *pSendBuf;
+
+	pSendBuf = JPEGBuf;
+	if (bufLen <= MAXLEN)   //dataSize 小于最大长度
+	{
+		sess.SetDefaultMark(true);
+		status = sess.SendPacket((void *)&pSendBuf[0], bufLen);
+		CheckError(status);
+		printf("send_packt 0 len = %d\n", bufLen);
+	}
+	else if (bufLen > MAXLEN)   //dataSize 大于最大长度
+	{
+		int sendPacket = 0;
+		int allPacket = 0;
+		int overData = 0;
+		int iSendLen;
+
+		allPacket = bufLen / MAXLEN;
+		overData = bufLen % MAXLEN;
+		sendPacket = 0;
+		while ((sendPacket < allPacket) || ((sendPacket == allPacket) && (overData > 0)))
+		{
+			printf("send_packet = %d \n", sendPacket);
+			/* the first packet or the second last packet */
+			if ((0 == sendPacket) || (sendPacket < allPacket && 0 != sendPacket))
+			{
+				sess.SetDefaultMark(false);
+				status = sess.SendPacket((void *)&pSendBuf[sendPacket * MAXLEN], MAXLEN);
+				CheckError(status);
+				sendPacket++;
+			}
+			/* the last packet */
+			else if (((allPacket == sendPacket) && overData>0) || ((sendPacket == (allPacket - 1)) && overData == 0))
+			{
+				sess.SetDefaultMark(true);
+
+				if (overData > 0)
+				{
+					iSendLen = bufLen - sendPacket * MAXLEN;
+				}
+				else
+				{
+					iSendLen = MAXLEN;
+				}
+
+				status = sess.SendPacket((void *)&pSendBuf[sendPacket * MAXLEN], iSendLen);
+				CheckError(status);
+				sendPacket++;
+			}
+		}
+	}
+
+}
+
+
 void SendRTP::init(void)
 {
     #ifdef WIN32  
@@ -84,7 +142,6 @@ void SendRTP::init(void)
     WSAStartup(MAKEWORD(2, 2), &dat);
     #endif // WIN32 
 
-    //opencv
     int status;
 
     //RTPSession sess;

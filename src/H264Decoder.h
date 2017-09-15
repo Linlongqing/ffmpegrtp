@@ -51,6 +51,8 @@ public:
     CDecoder();
     ~CDecoder();
     int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
+	int GetSize(int& width, int& height);
+	int GetData(uint8_t *pData);
 };
 
 #endif

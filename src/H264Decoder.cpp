@@ -62,9 +62,22 @@ int CDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
         printf("Decode Error.\n");
     }
     if (gotPicture){
-        memcpy(pDataOut, pFrame->data[0], pFrame->width * pFrame->height * sizeof(uint8_t));
         return 0;
     }
 
     return -1;
+}
+
+int CDecoder::GetSize(int& width, int& height)
+{
+	width = pFrame->width;
+	height = pFrame->height;
+
+	return 0;
+}
+
+int CDecoder::GetData(uint8_t* pData)
+{
+	memcpy(pData, pFrame->data[0], pFrame->width * pFrame->height * sizeof(uint8_t));
+	return 0;
 }

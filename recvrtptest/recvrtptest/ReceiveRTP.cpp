@@ -36,10 +36,6 @@ void ReceiveRTP::Init()
 
     sess.BeginDataAccess();
     pBuff = new uint8_t[MAX_BUFF_SIZE];
-
-    if (sess.GotoFirstSourceWithData())
-    {
-    }
 }
 
 void ReceiveRTP::Destroy()
