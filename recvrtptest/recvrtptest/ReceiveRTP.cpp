@@ -84,7 +84,7 @@ int ReceiveRTP::GetH264Packet()
         loadData = pack->GetPayloadData();
         int len = pack->GetPayloadLength();
 
-        if (pack->GetPayloadType() == 96) //H264
+        if (pack->GetPayloadType() == 96) //有效负载(载荷)类型 loadType H264=96
         {
             if (pack->HasMarker()) // the last packet
             {
@@ -109,4 +109,39 @@ int ReceiveRTP::GetH264Packet()
     }
 
     return 0;
+}
+
+int ReceiveRTP::GetJPEGPacket()
+{
+	uint8_t* loadData;
+	while ((pack = sess.GetNextPacket()) != NULL)
+	{
+		loadData = pack->GetPayloadData();
+		int len = pack->GetPayloadLength();
+		std::cout << "$$$$" << (int)pack->GetPayloadType() << std::endl;
+		if (pack->GetPayloadType() == 26) //有效负载(载荷)类型 loadType H264=96
+		{
+			if (pack->HasMarker()) // the last packet
+			{
+				memcpy(&pBuff[pos], loadData, len);
+				int size = len + pos;
+				sess.DeletePacket(pack);
+				pos = 0;
+				return size;
+			}
+			else
+			{
+				memcpy(&pBuff[pos], loadData, len);
+				pos = pos + len;
+			}
+		}
+		else
+		{
+			printf("!!!  GetPayloadType = %d !!!! \n ", pack->GetPayloadType());
+		}
+
+		sess.DeletePacket(pack);
+	}
+
+	return 0;
 }

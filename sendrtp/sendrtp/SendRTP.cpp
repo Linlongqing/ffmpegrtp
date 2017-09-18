@@ -166,7 +166,7 @@ void SendRTP::init(void)
     CheckError(status);
 
     sess.SetDefaultTimestampIncrement(3600);// 设置时间戳增加间隔
-    sess.SetDefaultPayloadType(96);
+    sess.SetDefaultPayloadType(26);
     sess.SetDefaultMark(true);//重要事件标志
 }
 

@@ -1,7 +1,5 @@
 #pragma once
 
-#ifndef __DECODER_H
-#define __DECODER_H
 #include <stdio.h>
 
 #define __STDC_CONSTANT_MACROS
@@ -49,4 +47,3 @@ public:
 
 };
 
-#endif

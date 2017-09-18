@@ -52,6 +52,7 @@ public:
     void Init();
     void Destroy();
     int GetH264Packet();
+	int GetJPEGPacket();
     int GetFirstSourceWithData();
     int GotoNextSourceWithData();
 };

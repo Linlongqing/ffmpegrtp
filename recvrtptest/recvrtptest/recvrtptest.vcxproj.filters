@@ -21,6 +21,12 @@
     <ClInclude Include="ReceiveRTP.h">
       <Filter>头文件</Filter>
     </ClInclude>
+    <ClInclude Include="JPEGDecoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="ReceiveSocket.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Decoder.cpp">
@@ -30,6 +36,12 @@
       <Filter>源文件</Filter>
     </ClCompile>
     <ClCompile Include="ReceiveRTP.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="JPEGDecoder.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
+    <ClCompile Include="ReceiveSocket.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
   </ItemGroup>

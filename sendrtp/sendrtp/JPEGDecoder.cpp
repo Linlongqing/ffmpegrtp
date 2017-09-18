@@ -1,9 +1,8 @@
 #include "JPEGDecoder.h"
 
-JPEGDecoder::JPEGDecoder()
+CJPEGDecoder::CJPEGDecoder()
 {
 	avcodec_register_all();
-	pFormatCtx = avformat_alloc_context();
 	packet = (AVPacket *)av_malloc(sizeof(AVPacket));
 
 	pCodec = avcodec_find_decoder(AV_CODEC_ID_MJPEG);
@@ -27,16 +26,11 @@ JPEGDecoder::JPEGDecoder()
 	}
 
 	pFrame = av_frame_alloc();
-    int numBytes = avpicture_get_size(AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
-    uint8_t *buffer = (uint8_t *)av_malloc(numBytes * sizeof(uint8_t));
-
-    avpicture_fill((AVPicture *)pFrame, buffer, AV_PIX_FMT_YUV420P, pCodecCtx->width, pCodecCtx->height);
-
 
 	frameCount = 0;
 }
 
-JPEGDecoder::~JPEGDecoder()
+CJPEGDecoder::~CJPEGDecoder()
 {
 	avcodec_close(pCodecCtx);
 	av_free(pCodecCtx);
@@ -44,17 +38,18 @@ JPEGDecoder::~JPEGDecoder()
 
 	if (packet != NULL)
 	{
-		delete packet;
+		//delete packet;
 	}
 }
 
-int JPEGDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
+int CJPEGDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
 {
 	packet->size = nInSize;
 	packet->data = pDataIn;
 
 	int gotPicture;
 	int ret = avcodec_decode_video2(pCodecCtx, pFrame, &gotPicture, packet);
+
 
 	if (ret < 0)
 	{
@@ -67,7 +62,7 @@ int JPEGDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
 	return -1;
 }
 
-int JPEGDecoder::GetSize(int& width, int& height)
+int CJPEGDecoder::GetSize(int& width, int& height)
 {
 	width = pFrame->width;
 	height = pFrame->height;
@@ -75,7 +70,7 @@ int JPEGDecoder::GetSize(int& width, int& height)
 	return 0;
 }
 
-int JPEGDecoder::GetData(uint8_t* pData)
+int CJPEGDecoder::GetData(uint8_t* pData)
 {
 	memcpy(pData, pFrame->data[0], pFrame->width * pFrame->height * sizeof(uint8_t));
 	return 0;

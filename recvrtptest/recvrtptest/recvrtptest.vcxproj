@@ -120,11 +120,15 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Decoder.h" />
+    <ClInclude Include="JPEGDecoder.h" />
     <ClInclude Include="ReceiveRTP.h" />
+    <ClInclude Include="ReceiveSocket.h" />
   </ItemGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Decoder.cpp" />
+    <ClCompile Include="JPEGDecoder.cpp" />
     <ClCompile Include="ReceiveRTP.cpp" />
+    <ClCompile Include="ReceiveSocket.cpp" />
     <ClCompile Include="recvrtptest.cpp" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />

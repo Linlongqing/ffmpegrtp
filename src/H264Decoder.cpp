@@ -7,7 +7,7 @@ Discription:
 ****************************************************************************/
 
 #include "H264Decoder.h"
-CDecoder::CDecoder()
+CH264Decoder::CH264Decoder()
 {
     avcodec_register_all();
     pFormatCtx = avformat_alloc_context();
@@ -38,7 +38,7 @@ CDecoder::CDecoder()
     frameCount = 0;
 }
 
-CDecoder::~CDecoder()
+CH264Decoder::~CH264Decoder()
 {
     avcodec_close(pCodecCtx);
     av_free(pCodecCtx);
@@ -50,7 +50,7 @@ CDecoder::~CDecoder()
     }
 }
 
-int CDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
+int CH264Decoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
 {
     packet->size = nInSize;
     packet->data = pDataIn;
@@ -68,7 +68,7 @@ int CDecoder::Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut)
     return -1;
 }
 
-int CDecoder::GetSize(int& width, int& height)
+int CH264Decoder::GetSize(int& width, int& height)
 {
 	width = pFrame->width;
 	height = pFrame->height;
@@ -76,7 +76,7 @@ int CDecoder::GetSize(int& width, int& height)
 	return 0;
 }
 
-int CDecoder::GetData(uint8_t* pData)
+int CH264Decoder::GetData(uint8_t* pData)
 {
 	memcpy(pData, pFrame->data[0], pFrame->width * pFrame->height * sizeof(uint8_t));
 	return 0;

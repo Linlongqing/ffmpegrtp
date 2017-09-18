@@ -36,7 +36,7 @@ extern "C"
 #endif
 #endif
 
-class CDecoder
+class CH264Decoder
 {
 private:
     //FFmpeg
@@ -48,8 +48,8 @@ private:
     AVCodecContext  *pCodecCtx;
     AVFormatContext *pFormatCtx;
 public:
-    CDecoder();
-    ~CDecoder();
+	CH264Decoder();
+	~CH264Decoder();
     int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
 	int GetSize(int& width, int& height);
 	int GetData(uint8_t *pData);

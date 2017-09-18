@@ -30,6 +30,9 @@
     <ClCompile Include="JPEGDecoder.cpp">
       <Filter>源文件</Filter>
     </ClCompile>
+    <ClCompile Include="SendSocket.cpp">
+      <Filter>源文件</Filter>
+    </ClCompile>
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Encoder.h">
@@ -42,6 +45,9 @@
       <Filter>头文件</Filter>
     </ClInclude>
     <ClInclude Include="JPEGDecoder.h">
+      <Filter>头文件</Filter>
+    </ClInclude>
+    <ClInclude Include="SendSocket.h">
       <Filter>头文件</Filter>
     </ClInclude>
   </ItemGroup>

@@ -132,12 +132,14 @@
     <ClCompile Include="JPEGEncoder.cpp" />
     <ClCompile Include="SendRTP.cpp" />
     <ClCompile Include="sendrtptest.cpp" />
+    <ClCompile Include="SendSocket.cpp" />
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Encoder.h" />
     <ClInclude Include="JPEGDecoder.h" />
     <ClInclude Include="JPEGEncoder.h" />
     <ClInclude Include="SendRTP.h" />
+    <ClInclude Include="SendSocket.h" />
   </ItemGroup>
   <Import Project="$(VCTargetsPath)\Microsoft.Cpp.targets" />
   <ImportGroup Label="ExtensionTargets">

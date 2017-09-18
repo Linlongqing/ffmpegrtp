@@ -3,7 +3,9 @@
 #include <iostream>
 #include <string>
 #include "H264Decoder.h"
+#include "JPEGDecoder.h"
 #include "ReceiveRTP.h"
+#include "ReceiveSocket.h"
 #include <opencv2/opencv.hpp>
 
 #ifdef _WIN32
@@ -135,64 +137,60 @@ int main(void)
 #else
 int main()
 {
-    CDecoder decoder;
-    ReceiveRTP receive;
-
-	//Receive an Image from client
-	//receive.Init();
-	//
-	//if (receive.GetFirstSourceWithData())
-	//{
-	//	int size = receive.GetH264Packet();
-	//	if (size)
-	//	{
-	//		if (!decoder.Decode(receive.pBuff, size, NULL))
-	//		{
-	//			int width;
-	//			int height;
-	//			decoder.GetSize(width, height);
-	//			cv::Mat dstImage(cv::Size(width,height), CV_8UC1);
-	//			decoder.GetData(dstImage.data);
-	//			cv::imshow("dstImage", dstImage);
-	//			cv::waitKey(0);
-	//		}
-	//	}
-	//}
-
-
-	 //Receive a audio/video stream from client
-    receive.Init();
-
-    while (1)
+    //CH264Decoder decoder;
+    CJPEGDecoder decoder;
+    //ReceiveRTP receive;
+    CReceiveSocket s;
+    s.Listen();
+    s.AcceptFromClient();
+    cv::Mat dstImage(cv::Size(480, 272), CV_8UC1);
+    s.ReceiveFromClient((char *)dstImage.data, 130560);
+    if (!decoder.Decode(dstImage.data, 130560, NULL))
     {
-        if (receive.GetFirstSourceWithData())
-        {
-            do
-            {
-                int size = receive.GetH264Packet();
-                if (size)
-                {
-                    if (!decoder.Decode(receive.pBuff, size, NULL))
-                    {
-						int width;
-						int height;
-						decoder.GetSize(width, height);
-						cv::Mat image(cv::Size(width, height), CV_8UC1);
-						decoder.GetData(image.data);
+        int width;
+        int height;
+        decoder.GetSize(width, height);
+        cv::Mat image(cv::Size(width, height), CV_8UC1);
+        decoder.GetData(image.data);
 
-                        cv::imshow("image", image);
-                        cv::waitKey(33);
-						std::cout << "Lena is coming!" << std::endl;
-                    }
-                }
-            } while (receive.GotoNextSourceWithData());
-        }
-        Sleep(1);
+        cv::imshow("服务器接收图片", image);
+        cv::waitKey(0);
     }
 
-    receive.Destroy();
+        //Receive a audio/video stream from client
+        //receive.Init();
 
-	return 0;
-}
+        //while (1)
+        //{
+        //    if (receive.GetFirstSourceWithData())
+        //    {
+        //        do
+        //        {
+        //            int size = receive.GetH264Packet();
+        ////int size = receive.GetJPEGPacket();
+        //            if (size)
+        //            {
+        //                if (!decoder.Decode(receive.pBuff, size, NULL))
+        //                {
+        //		int width;
+        //		int height;
+        //		decoder.GetSize(width, height);
+        //		cv::Mat image(cv::Size(width, height), CV_8UC1);
+        //		decoder.GetData(image.data);
+
+        //                    cv::imshow("image", image);
+        //                    cv::waitKey(3);
+        //		std::cout << "Lena is coming!" << std::endl;
+        //                }
+        //            }
+        //        } while (receive.GotoNextSourceWithData());
+        //    }
+        //    Sleep(1);
+        //}
+
+        //receive.Destroy();
+
+        return 0;
+    }
 
 #endif
