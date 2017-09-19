@@ -1,5 +1,12 @@
-#pragma once
+/****************************************************************************
+filename:           JPEGDecoder.h
+Author:             linshufei
+Date:               2017/9/19
+Discription:
 
+*****************************************************************************/
+
+#pragma once
 #include <stdio.h>
 
 #define __STDC_CONSTANT_MACROS
@@ -33,11 +40,11 @@ class CJPEGDecoder
 private:
 	//FFmpeg
 	int             frameCount;
-	int             videoindex;
-	AVCodec         *pCodec;
-	AVFrame         *pFrame;
-	AVPacket        *packet;
-	AVCodecContext  *pCodecCtx;
+	int             videoIndex;
+	AVCodec         *pCodec = NULL;
+	AVFrame         *pFrame = NULL;
+	AVPacket        *packet = NULL;
+	AVCodecContext  *pCodecCtx = NULL;
 public:
 	CJPEGDecoder();
 	~CJPEGDecoder();

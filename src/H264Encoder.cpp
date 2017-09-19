@@ -9,7 +9,7 @@ Discription:
 #include <iostream>
 
 //#define RECODE_STREAM
-CEncoder::CEncoder(int width, int height)
+CRTPEncoder::CRTPEncoder(int width, int height)
 {
     count = 0;
     framecnt = 0;
@@ -69,14 +69,15 @@ CEncoder::CEncoder(int width, int height)
     dataSize = pCodecCtx->width * pCodecCtx->height;
 }
 
-CEncoder::~CEncoder()
+CRTPEncoder::~CRTPEncoder()
 {
     avcodec_close(pCodecCtx);
     av_free(pFrame);
     av_free(pictureBuf);
+    av_free_packet(&packet);
 }
 
-int CEncoder::Encode(unsigned char* data)
+int CRTPEncoder::Encode(unsigned char* data)
 {
     pFrame->data[0] = data;                         // Y
     pFrame->data[1] = data + dataSize;              // U
@@ -105,8 +106,3 @@ int CEncoder::Encode(unsigned char* data)
     return -1;
 }
 
-int CEncoder::FreePacket()
-{
-    av_free_packet(&packet);
-    return 0;
-}

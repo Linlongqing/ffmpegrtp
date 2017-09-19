@@ -1,10 +1,28 @@
+/****************************************************************************
+filename:           SendSocket.h
+Author:             linshufei
+Date:               2017/9/19
+Discription:
+
+*****************************************************************************/
+
 #pragma once
 #include <winsock2.h>
 #include <stdio.h>
 #include <iostream>
 #pragma comment(lib,"ws2_32.lib")
 #define MAX_IMAGE_SIZE 1920 * 1080 
-#define DATA_ADDR 4;
+#define DATA_ADDR 5;
+#define SERVER_TYPE 0;
+
+typedef struct SImageHeader
+{
+    int width;
+    int height;
+    int serverType;
+    int dataOffset;
+    int dataSize;
+} SImageHeader;
 
 class CSendSocket
 {

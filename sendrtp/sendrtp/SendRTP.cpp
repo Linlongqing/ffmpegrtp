@@ -15,18 +15,18 @@ using namespace jrtplib;
 SendRTP::SendRTP(void){}
 SendRTP::~SendRTP(void){}
 
-void SendRTP::CheckError(int rtperr){
-    if (rtperr < 0){
-        std::cout << "ERROR: " << RTPGetErrorString(rtperr) << std::endl;
+void SendRTP::CheckError(int rtpErr){
+    if (rtpErr < 0){
+        std::cout << "ERROR: " << RTPGetErrorString(rtpErr) << std::endl;
         exit(-1);
     }
 }
 
-void SendRTP::SendH264Nalu(uint8_t *h264buf, int bufLen){
+void SendRTP::SendH264Nalu(uint8_t *h264Buf, int bufLen){
     int status;
     uint8_t *pSendBuf;
 
-    pSendBuf = h264buf;
+    pSendBuf = h264Buf;
     if (bufLen <= MAXLEN)   //dataSize 小于最大长度
     {
         sess.SetDefaultMark(true);
@@ -135,7 +135,7 @@ void SendRTP::SendJPEG(uint8_t* JPEGBuf, int bufLen)
 }
 
 
-void SendRTP::init(void)
+void SendRTP::Init(void)
 {
     #ifdef WIN32  
     WSADATA dat;

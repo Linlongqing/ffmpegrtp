@@ -35,7 +35,7 @@ public:
     SendRTP(void);
     ~SendRTP(void);
     void CheckError(int rtpErr);
-    void SendH264Nalu(uint8_t* h264buf, int bufLen);
+    void SendH264Nalu(uint8_t* h264Buf, int bufLen);
     void SendJPEG(uint8_t* JPEGBuf, int bufLen);
-    void init(void);
+    void Init(void);
 };

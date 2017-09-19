@@ -1,3 +1,11 @@
+/****************************************************************************
+filename:           JPEGDecoder.cpp
+Author:             linshufei
+Date:               2017/9/19
+Discription:
+
+*****************************************************************************/
+
 #include "JPEGDecoder.h"
 
 CJPEGDecoder::CJPEGDecoder()
@@ -38,7 +46,8 @@ CJPEGDecoder::~CJPEGDecoder()
 
 	if (packet != NULL)
 	{
-		delete packet;
+		av_free(packet);
+        packet = NULL;
 	}
 }
 

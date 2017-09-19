@@ -30,7 +30,7 @@ extern "C"
 #endif  
 #endif
 
-class CEncoder
+class CRTPEncoder
 {
 private:
     int count;
@@ -49,9 +49,8 @@ private:
 public:
     AVPacket packet;
 
-    CEncoder(int width, int height);
-    ~CEncoder();
-    int FreePacket();
+    CRTPEncoder(int width, int height);
+    ~CRTPEncoder();
     int Encode(unsigned char* data);
     int FlushEncoder(AVFormatContext *fmt_ctx, unsigned int stream_index);
 };

@@ -1,3 +1,11 @@
+/****************************************************************************
+filename:           SendSocket.cpp
+Author:             linshufei
+Date:               2017/9/19
+Discription:
+
+*****************************************************************************/
+
 #include "SendSocket.h"
 
 
@@ -29,7 +37,23 @@ int CSendSocket::Connect2Server()
 
 int CSendSocket::Send2Server(char* pData ,int size)
 {
-    send(sockClient, pData, size, 0);
+    //write header
+    char* pictureBuf;
+    pictureBuf = new char[MAX_IMAGE_SIZE];
+
+    SImageHeader imageHeader;
+    imageHeader.width = width;
+    imageHeader.height = height;
+    imageHeader.dataSize = size;
+    imageHeader.dataOffset = sizeof(imageHeader);
+    
+    memcpy(pictureBuf, &imageHeader, sizeof(imageHeader));
+    memcpy(pictureBuf + sizeof(imageHeader), pData, size);
+
+    //send picture
+    send(sockClient, pictureBuf, size + sizeof(imageHeader), 0);
+
+    delete pictureBuf;
     return 0;
 }
 

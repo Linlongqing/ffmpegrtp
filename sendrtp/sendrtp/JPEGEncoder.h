@@ -33,13 +33,21 @@ class CJPEGEncoder
 {
 public:
 	AVPacket packet;
-
-	CJPEGEncoder(){};
-	~CJPEGEncoder(){};
-	int Encoder(unsigned char* data);
+    CJPEGEncoder(int width, int height);
+    ~CJPEGEncoder();
+	int Encode(unsigned char* data);
 	int SetSize(int width, int height);
-	int FreePacket();
+
 private:
 	int inW;
 	int inH;
+    
+    //encoder message
+    AVOutputFormat* fmt = NULL;
+    AVCodecContext* pCodecCtx = NULL;
+    AVCodec* pCodec = NULL;
+
+    //data
+    uint8_t* pictureBuf = NULL;
+    AVFrame* picture = NULL;
 };

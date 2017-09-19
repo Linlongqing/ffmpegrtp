@@ -41,12 +41,12 @@ class CH264Decoder
 private:
     //FFmpeg
     int             frameCount;
-    int             videoindex;
-    AVCodec         *pCodec;
-    AVFrame         *pFrame;
-    AVPacket        *packet;
-    AVCodecContext  *pCodecCtx;
-    AVFormatContext *pFormatCtx;
+    int             videoIndex;
+    AVCodec         *pCodec = NULL;
+    AVCodecContext  *pCodecCtx = NULL;
+    AVFrame         *pFrame = NULL;
+    AVPacket        *packet = NULL;
+    AVFormatContext *pFormatCtx = NULL;
 public:
 	CH264Decoder();
 	~CH264Decoder();
