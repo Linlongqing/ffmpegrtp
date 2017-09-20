@@ -146,8 +146,8 @@ void SendRTP::Init(void)
 
     //RTPSession sess;
     uint16_t portBase = 6666;  //local portbase
-    uint16_t destPort = 6664;
-    uint8_t destIP[] = { 127, 0, 0, 1 };   //目标IP地址
+    uint16_t destPort = 8000;
+    uint8_t destIP[] = { 192, 168, 179, 128 };   //目标IP地址
 
     RTPUDPv4TransmissionParams transParams;   //传输参数
     RTPSessionParams sessParams;  //会话参数
@@ -166,7 +166,7 @@ void SendRTP::Init(void)
     CheckError(status);
 
     sess.SetDefaultTimestampIncrement(3600);// 设置时间戳增加间隔
-    sess.SetDefaultPayloadType(26);
+    sess.SetDefaultPayloadType(96);//96 for h264, 26 for jpeg
     sess.SetDefaultMark(true);//重要事件标志
 }
 

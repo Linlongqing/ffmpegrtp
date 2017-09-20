@@ -11,7 +11,8 @@
 
 using namespace jrtplib;
 
-#if 1
+//jpeg
+#if 0
 int main()
 {
     CJPEGDecoder decoder;
@@ -37,8 +38,10 @@ int main()
     delete []pData;
 
     return 0;
-    }
-#else 
+}
+#else
+
+//H264
 int main()
 {
     CH264Decoder decoder;
@@ -59,15 +62,15 @@ int main()
                 {
                     if (!decoder.Decode(receive.pBuff, size, NULL))
                     {
-    		              int width;
-    		              int height;
-    		              decoder.GetSize(width, height);
-    		              cv::Mat image(cv::Size(width, height), CV_8UC1);
-    		              decoder.GetData(image.data);
+                          int width;
+                          int height;
+                          decoder.GetSize(width, height);
+                          cv::Mat image(cv::Size(width, height), CV_8UC1);
+                          decoder.GetData(image.data);
 
                         cv::imshow("image", image);
                         cv::waitKey(3);
-    		std::cout << "Lena is coming!" << std::endl;
+                        std::cout << "Lena is coming!" << std::endl;
                     }
                 }
             } while (receive.GotoNextSourceWithData());

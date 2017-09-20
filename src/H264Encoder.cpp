@@ -83,7 +83,7 @@ int CRTPEncoder::Encode(unsigned char* data)
     pFrame->data[1] = data + dataSize;              // U
     pFrame->data[2] = data + dataSize * 5 / 4;      // V
     pFrame->pts = (count++)*(pCodecCtx->time_base.den) / ((pCodecCtx->time_base.num) * 25);
-	//std::cout << pFrame->width << "  "<<pFrame->height<<std::endl;
+    memset(&packet, 0, sizeof(AVPacket));
 
     //Encode
     int gotPicture = 0;

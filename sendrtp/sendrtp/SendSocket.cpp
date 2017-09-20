@@ -15,10 +15,9 @@ CSendSocket::CSendSocket()
     //新建客户端socket
     sockClient = socket(AF_INET, SOCK_STREAM, 0);
     //定义要连接的服务端地址
-    addrServer.sin_addr.S_un.S_addr = inet_addr("127.0.0.1");
+    addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.179.128");
     addrServer.sin_family = AF_INET;
-    addrServer.sin_port = htons(6000);
-
+    addrServer.sin_port = htons(8000);
 }
 
 
@@ -31,7 +30,8 @@ CSendSocket::~CSendSocket()
 
 int CSendSocket::Connect2Server()
 {
-    connect(sockClient, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
+    int ret =connect(sockClient, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
+    std::cout << ret << std::endl;
     return 0;
 }
 

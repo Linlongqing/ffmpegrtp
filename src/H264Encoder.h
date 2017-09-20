@@ -30,6 +30,8 @@ extern "C"
 #endif  
 #endif
 
+
+
 class CRTPEncoder
 {
 private:

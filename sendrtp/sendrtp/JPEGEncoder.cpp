@@ -73,6 +73,7 @@ int CJPEGEncoder::Encode(unsigned char* data)
 	//Encode
     int gotPicture;
 	int ret = avcodec_encode_video2(pCodecCtx, &packet, picture, &gotPicture);
+    //std::cout << picture->data[0] << std::endl;
 
 	if (ret < 0){
 		printf("Encode Error.\n");
