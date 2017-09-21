@@ -42,15 +42,20 @@ private:
     //FFmpeg
     int             frameCount;
     int             videoIndex;
+
+    //decoder message
     AVCodec         *pCodec = NULL;
     AVCodecContext  *pCodecCtx = NULL;
     AVFrame         *pFrame = NULL;
-    AVPacket        *packet = NULL;
     AVFormatContext *pFormatCtx = NULL;
+
+    //data
+    AVPacket        *packet = NULL;
+
 public:
 	CH264Decoder();
 	~CH264Decoder();
-    int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
+    int Decode(uint8_t *pDataIn, int nInSize);
 	int GetSize(int& width, int& height);
 	int GetData(uint8_t *pData);
 };

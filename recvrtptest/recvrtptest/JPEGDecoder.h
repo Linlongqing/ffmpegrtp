@@ -41,14 +41,19 @@ private:
 	//FFmpeg
 	int             frameCount;
 	int             videoIndex;
+
+    //decoder message
 	AVCodec         *pCodec = NULL;
-	AVFrame         *pFrame = NULL;
-	AVPacket        *packet = NULL;
 	AVCodecContext  *pCodecCtx = NULL;
+	AVFrame         *pFrame = NULL;
+
+    //data
+	AVPacket        *packet = NULL;
+
 public:
 	CJPEGDecoder();
 	~CJPEGDecoder();
-	int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
+	int Decode(uint8_t *pDataIn, int nInSize);
 	int GetSize(int& width, int& height);
 	int GetData(uint8_t *pData);
 

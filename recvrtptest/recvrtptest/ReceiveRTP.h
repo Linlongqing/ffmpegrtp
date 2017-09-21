@@ -40,9 +40,8 @@ private:
 
     double timeStampUnit;
     jrtplib::RTPPacket* pack;
-    jrtplib::RTPTime delay{ 0.001 };
-
     void CheckError(int rtpErr);
+
 public:
     uint8_t *pBuff;
 
@@ -52,7 +51,6 @@ public:
     void Init();
     void Destroy();
     int GetH264Packet();
-	int GetJPEGPacket();
     int GetFirstSourceWithData();
     int GotoNextSourceWithData();
 };

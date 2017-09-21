@@ -23,13 +23,13 @@ Discription:
 #pragma comment(lib,"jrtplib.lib")
 
 class SendRTP{
-public:
+private:
     jrtplib::RTPSession sess;
-
+    void CheckError(int rtpErr);
+public:
     SendRTP(void);
     ~SendRTP(void);
-    void CheckError(int rtpErr);
     void SendH264Nalu(uint8_t* h264Buf, int bufLen);
-    void SendJPEG(uint8_t* JPEGBuf, int bufLen);
     void Init(void);
+    void DeInit(void);
 };

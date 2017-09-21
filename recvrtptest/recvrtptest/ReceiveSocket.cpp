@@ -8,7 +8,6 @@ Discription:
 
 #include "ReceiveSocket.h"
 
-
 CReceiveSocket::CReceiveSocket()
 {
     pData = new char[MAX_IMAGE_SIZE];
@@ -32,6 +31,7 @@ CReceiveSocket::~CReceiveSocket()
     WSACleanup();
 }
 
+//监听
 int CReceiveSocket::Listen()
 {
     listen(sockServer, 1); //1为等待连接数目
@@ -39,6 +39,7 @@ int CReceiveSocket::Listen()
     return 0;
 }
 
+//会阻塞进程，直到有客户端连接上来为止
 int CReceiveSocket::AcceptFromClient()
 {
     int len = sizeof(SOCKADDR);
@@ -46,6 +47,7 @@ int CReceiveSocket::AcceptFromClient()
     return 0;
 }
 
+//接收客户端数据
 int CReceiveSocket::ReceiveFromClient(char* recvBuf, int recvBufLen)
 {
     int pos = 0;

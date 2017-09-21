@@ -39,16 +39,13 @@ extern "C"
 class CJPEGEncoder
 {
 public:
-	AVPacket packet;
+    AVPacket packet;
     CJPEGEncoder(int width, int height);
     ~CJPEGEncoder();
-	int Encode(unsigned char* data);
-	int SetSize(int width, int height);
+    int Encode(unsigned char* data);
+    int SetSize(int width, int height);
 
 private:
-	int inW;
-	int inH;
-    
     //encoder message
     AVOutputFormat* fmt = NULL;
     AVCodecContext* pCodecCtx = NULL;
@@ -56,5 +53,5 @@ private:
 
     //data
     uint8_t* pictureBuf = NULL;
-    AVFrame* picture = NULL;
+    AVFrame* pPicture = NULL;
 };

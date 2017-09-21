@@ -8,39 +8,44 @@ Discription:
 
 #include "SendSocket.h"
 
-
 CSendSocket::CSendSocket()
 {
     WSAStartup(MAKEWORD(2, 2), &wsaData);
+
     //新建客户端socket
     sockClient = socket(AF_INET, SOCK_STREAM, 0);
-    //定义要连接的服务端地址
-    addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.179.128");
-    addrServer.sin_family = AF_INET;
-    addrServer.sin_port = htons(8000);
-}
 
+    //定义要连接的服务端地址
+    addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.179.129");
+    addrServer.sin_family = AF_INET;
+    addrServer.sin_port = htons(8001);
+}
 
 CSendSocket::~CSendSocket()
 {
     closesocket(sockClient);
     WSACleanup();
-
 }
 
+//请求连接服务器
 int CSendSocket::Connect2Server()
 {
     int ret =connect(sockClient, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
-    std::cout << ret << std::endl;
+    if (ret < 0)
+    {
+        std::cout << "connect failed!" << std::endl;
+        return -1;
+    }
     return 0;
 }
 
+//将数据发送到服务器端，输入为指向数据的指针pData和数据的大小size
 int CSendSocket::Send2Server(char* pData ,int size)
 {
-    //write header
     char* pictureBuf;
     pictureBuf = new char[MAX_IMAGE_SIZE];
 
+    //写数据头
     SImageHeader imageHeader;
     imageHeader.width = width;
     imageHeader.height = height;

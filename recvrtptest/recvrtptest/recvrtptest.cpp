@@ -23,7 +23,7 @@ int main()
     pData = new char[MAX_IMAGE_SIZE];
     s.ReceiveFromClient(pData, MAX_IMAGE_SIZE);
 
-    if (!decoder.Decode((uint8_t*)s.pData , s.imageSize , NULL))
+    if (!decoder.Decode((uint8_t*)s.pData , s.imageSize))
     {
         int width;
         int height;
@@ -60,7 +60,7 @@ int main()
               //int size = receive.GetJPEGPacket();
                 if (size)
                 {
-                    if (!decoder.Decode(receive.pBuff, size, NULL))
+                    if (!decoder.Decode(receive.pBuff, size))
                     {
                           int width;
                           int height;
