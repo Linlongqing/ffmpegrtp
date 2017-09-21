@@ -8,4 +8,4 @@ discription:
 1. get video from laptop's pre-camera and encode it to h264 stream using ffmpeg
 2. send it by jrtp
 3. receive video by jrtp and decode it by ffmpeg
-4. using socket to send jpeg encoded by ffmpeg
+4. using socket to send jpeg picture encoded by ffmpeg
