@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
 filename:           SendSocket.cpp
 Author:             linshufei
 Date:               2017/9/19
@@ -7,30 +7,31 @@ Discription:
 *****************************************************************************/
 
 #include "SendSocket.h"
+#include "dataheader.h"
 
 CSendSocket::CSendSocket()
 {
     WSAStartup(MAKEWORD(2, 2), &wsaData);
 
-    //ĞÂ½¨¿Í»§¶Ësocket
+    //æ–°å»ºå®¢æˆ·ç«¯socket
     sockClient = socket(AF_INET, SOCK_STREAM, 0);
 
-    //¶¨ÒåÒªÁ¬½ÓµÄ·şÎñ¶ËµØÖ·
-    addrServer.sin_addr.S_un.S_addr = inet_addr("192.168.179.129");
+    //å®šä¹‰è¦è¿æ¥çš„æœåŠ¡ç«¯åœ°å€
+    addrServer.sin_addr.S_un.S_addr = inet_addr("10.10.10.163"); //118.31.16.221  //10.10.10.163  //192.168.179.130
     addrServer.sin_family = AF_INET;
-    addrServer.sin_port = htons(8001);
+    addrServer.sin_port = htons(12007);
 }
 
 CSendSocket::~CSendSocket()
 {
-    closesocket(sockClient);
-    WSACleanup();
+    //closesocket(sockClient);
+    //WSACleanup();
 }
 
-//ÇëÇóÁ¬½Ó·şÎñÆ÷
+//è¯·æ±‚è¿æ¥æœåŠ¡å™¨  
 int CSendSocket::Connect2Server()
 {
-    int ret =connect(sockClient, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
+    int ret = connect(sockClient, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
     if (ret < 0)
     {
         std::cout << "connect failed!" << std::endl;
@@ -39,26 +40,37 @@ int CSendSocket::Connect2Server()
     return 0;
 }
 
-//½«Êı¾İ·¢ËÍµ½·şÎñÆ÷¶Ë£¬ÊäÈëÎªÖ¸ÏòÊı¾İµÄÖ¸ÕëpDataºÍÊı¾İµÄ´óĞ¡size
+//å°†æ•°æ®å‘é€åˆ°æœåŠ¡å™¨ç«¯ï¼Œè¾“å…¥ä¸ºæŒ‡å‘æ•°æ®çš„æŒ‡é’ˆpDataå’Œæ•°æ®çš„å¤§å°size
 int CSendSocket::Send2Server(char* pData ,int size)
 {
     char* pictureBuf;
     pictureBuf = new char[MAX_IMAGE_SIZE];
+    char* headerBuf = new char[sizeof(SImageHeader)];
 
-    //Ğ´Êı¾İÍ·
+    //å†™æ•°æ®å¤´
     SImageHeader imageHeader;
+    imageHeader.serverType = 0;
+    imageHeader.headerType = KRJPEG;
     imageHeader.width = width;
     imageHeader.height = height;
     imageHeader.dataSize = size;
     imageHeader.dataOffset = sizeof(imageHeader);
+    imageHeader.headerCheckCode = width + height;
     
-    memcpy(pictureBuf, &imageHeader, sizeof(imageHeader));
-    memcpy(pictureBuf + sizeof(imageHeader), pData, size);
+    memcpy(headerBuf, &imageHeader, sizeof(imageHeader));
+    //send header
+    send(sockClient, headerBuf, sizeof(imageHeader), 0);
 
     //send picture
-    send(sockClient, pictureBuf, size + sizeof(imageHeader), 0);
+    uint32_t tailerCheckCode = size;
+    memcpy(pictureBuf, pData, size);
+    memcpy(&pictureBuf[size], &tailerCheckCode, sizeof(uint32_t));
+    send(sockClient, pictureBuf, size + sizeof(uint32_t), 0);
+    std::cout << "send picture size: " << size + sizeof(imageHeader) + sizeof(uint32_t) << std::endl;
 
+    delete headerBuf;
     delete pictureBuf;
+
     return 0;
 }
 
@@ -66,5 +78,54 @@ int CSendSocket::GetSize(int w, int h)
 {
     width = w;
     height = h;
+    return 0;
+}
+typedef struct obj
+{
+    uint32_t type;
+    uint32_t confidence;
+};
+
+int CSendSocket::RecvRes()
+{
+    //receive the response from server
+    //listen(sockClient, 1); //listen and wait for the server to link
+    //std::cout << "Client start waitting for response" << std::endl;
+
+    //int len = sizeof(SOCKADDR);
+    //sockServer = accept(sockClient, (SOCKADDR*)& addrServer, &len);
+
+    obj Res[5];
+    int response = recv(sockClient, (char *)Res, 5 * sizeof(obj), 0);
+    for (auto i : Res)
+    {
+        std::cout << "class: "<< i.type << " - p: " << i.confidence / 65535.0 << std::endl;
+    }
+    return 0;
+}
+
+int CSendSocket::RecvImage(char* &pImage, int &sizeImage)
+{
+    char* recvBuf = new char[MAX_IMAGE_SIZE];
+    int recvBufLen = MAX_IMAGE_SIZE;
+    int pos = 0;
+    SImageHeader header;
+    int len = recv(sockClient, (char*)&header, sizeof(SImageHeader), 0);
+    while (true)
+    {
+        len = recv(sockClient, &recvBuf[pos], 1024, 0);
+        pos += len;
+        std::cout << "pos:" << pos << "/" << header.dataSize << std::endl;
+        if (pos >= header.dataSize)
+        {
+            //send(sockClient, "linglongqing", 20, 1);
+            break;
+        }
+    }
+
+    std::cout << "length:" << len << std::endl;
+    memcpy(pImage, recvBuf, header.dataSize);
+    sizeImage = header.dataSize;
+
     return 0;
 }

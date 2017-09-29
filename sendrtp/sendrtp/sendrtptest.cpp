@@ -6,8 +6,9 @@
 #include <opencv2/opencv.hpp>
 #include "zip.h"
 #include "unzip.h"
+#include <Windows.h>
 
-#if 1
+#if 0
 int main(void)
 {
     cv::VideoCapture capture(0);
@@ -22,7 +23,6 @@ int main(void)
         capture.read(image);
         cv::cvtColor(image, image, CV_BGR2YUV_I420);
         cv::imshow("image", image);
-        cv::waitKey(30);
         char c = cv::waitKey(33);
         if (c == 'q')
         {
@@ -39,11 +39,14 @@ int main(void)
 
 int main()
 {
-    cv::Mat srcImage = cv::imread("cuc_view.jpg");
+    cv::Mat srcImage = cv::imread("zebra.jpg");
     int in_w = srcImage.cols;
     int in_h = srcImage.rows;
+    in_w = in_w - in_w % 32;
+    in_h = in_h - in_h % 2;
+    cv::resize(srcImage, srcImage, cv::Size(in_w, in_h));
+    std::cout << srcImage.channels() << "srcImage size : " << srcImage.cols << " * " << srcImage.rows << std::endl;
     cv::cvtColor(srcImage, srcImage, CV_BGR2YUV_I420);
-    std::cout << srcImage.channels() << "***" << srcImage.cols << " * " << srcImage.rows << std::endl;
     cv::imshow("send image", srcImage);
     cv::waitKey(0);
 
@@ -51,8 +54,7 @@ int main()
     //rtp.init();
 
     //CJPEGDecoder decoder;
-    CJPEGEncoder encoder(480,272);
-    encoder.SetSize(in_w, in_h);
+    CJPEGEncoder encoder(in_w, in_h);
     encoder.Encode(srcImage.data);
 
 
@@ -60,14 +62,42 @@ int main()
     //{
         //rtp.SendJPEG(encoder.packet.data, encoder.packet.size);        
     //}
-    std::cout << encoder.packet.size << std::endl;
+    std::cout << "packet size: " <<encoder.packet.size << std::endl;
 
     CSendSocket s;
     s.Connect2Server();
     s.GetSize(in_w, in_h);
-    s.Send2Server((char*)encoder.packet.data, encoder.packet.size);
+    while (1)
+    {
+        
+        s.Send2Server((char*)encoder.packet.data, encoder.packet.size);
+        double start = GetTickCount();
+        s.RecvRes();
+        double end = GetTickCount();
+        std::cout << "GetTickCount: " << end - start << std::endl;
+    }
 
-    //rtp.sess.BYEDestroy(jrtplib::RTPTime(10, 0), 0, 0);
+    //char* pImage = new char[MAX_IMAGE_SIZE];
+    //int sizeImage;
+    //s.RecvImage(pImage, sizeImage);
+
+    //CJPEGDecoder decoder;
+    //if (!decoder.Decode((uint8_t*)pImage, sizeImage))
+    //{
+    //    std::cout << "decoder successful!" << std::endl;
+    //}
+
+    //int width;
+    //int height;
+    //decoder.GetSize(width, height);
+    //std::cout << width << " && " << height << std::endl;
+    //cv::Mat dstImage(cv::Size(480, 272 * 3 / 2), CV_8UC1, cv::Scalar(255));
+    //decoder.GetData(dstImage.data);
+    //cv::cvtColor(dstImage, dstImage, CV_YUV2BGRA_I420);
+    //cv::imshow("result", dstImage);
+    //cv::waitKey(0);
+
+    ////rtp.sess.BYEDestroy(jrtplib::RTPTime(10, 0), 0, 0);
 
 
     system("pause");

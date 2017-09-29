@@ -18,7 +18,7 @@ CRTPEncoder::CRTPEncoder(int width, int height)
     av_register_all();
 
     //Ñ°ÕÒ±àÂëÆ÷
-    pCodec = avcodec_find_encoder(AV_CODEC_ID_H265);
+    pCodec = avcodec_find_encoder(AV_CODEC_ID_H264); 
     if (!pCodec)
     {
         printf("Can not find encoder! \n");

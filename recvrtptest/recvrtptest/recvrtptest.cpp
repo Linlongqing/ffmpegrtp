@@ -12,7 +12,7 @@
 using namespace jrtplib;
 
 //jpeg
-#if 0
+#if 1
 int main()
 {
     CJPEGDecoder decoder;

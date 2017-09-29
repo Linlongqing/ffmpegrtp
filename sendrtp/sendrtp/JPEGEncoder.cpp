@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
 filename:           JPEGEncoder.cpp
 Author:             linshufei
 Date:               2017/9/15
@@ -11,10 +11,10 @@ Discription:
 
 CJPEGEncoder::CJPEGEncoder(int width, int height)
 {
-    //×¢²á±àÂëÆ÷
+    //æ³¨å†Œç¼–ç ï¿½?
     avcodec_register_all();
 
-    //Ñ°ÕÒ±àÂëÆ÷
+    //å¯»æ‰¾ç¼–ç ï¿½?
     pCodec = avcodec_find_encoder(AV_CODEC_ID_MJPEG);
     if (pCodec == NULL)
     {
@@ -28,17 +28,17 @@ CJPEGEncoder::CJPEGEncoder(int width, int height)
         printf("Fail to get decoder context !\n");
     }
 
-    //Í¼ÏñÉ«²Ê¿Õ¼äµÄ¸ñÊ½£¬²ÉÓÃÊ²Ã´ÑùµÄÉ«²Ê¿Õ¼äÀ´±íÃ÷Ò»¸öÏñËØ¡£
+    //å›¾åƒè‰²å½©ç©ºé—´çš„æ ¼å¼ï¼Œé‡‡ç”¨ä»€ä¹ˆæ ·çš„è‰²å½©ç©ºé—´æ¥è¡¨æ˜Žä¸€ä¸ªåƒç´ ï¿½?
     pCodecCtx->pix_fmt = AV_PIX_FMT_YUVJ444P;
 
-    //±àÂëÆ÷±àÂëµÄÊý¾ÝÀàÐÍ
+    //ç¼–ç å™¨ç¼–ç çš„æ•°æ®ç±»åž‹
     pCodecCtx->codec_type = AVMEDIA_TYPE_VIDEO;
 
-    //±àÂëºóµÄÊÓÆµÖ¡´óÐ¡£¬ÒÔÏñËØÎªµ¥Î»¡£
+    //ç¼–ç åŽçš„è§†é¢‘å¸§å¤§å°ï¼Œä»¥åƒç´ ä¸ºå•ä½ï¿½?
     pCodecCtx->width = width;
     pCodecCtx->height = height;
 
-    //Ö¡ÂÊµÄ»ù±¾µ¥Î»£¬time_base.numÎªÊ±¼äÏß·Ö×Ó£¬time_base.denÎªÊ±¼äÏß·ÖÄ¸£¬Ö¡ÂÊ=·Ö×Ó/·ÖÄ¸¡£
+    //å¸§çŽ‡çš„åŸºæœ¬å•ä½ï¼Œtime_base.numä¸ºæ—¶é—´çº¿åˆ†å­ï¼Œtime_base.denä¸ºæ—¶é—´çº¿åˆ†æ¯ï¼Œå¸§ï¿½?åˆ†å­/åˆ†æ¯ï¿½?
     pCodecCtx->time_base.num = 1;
     pCodecCtx->time_base.den = 25;
 
@@ -64,7 +64,7 @@ CJPEGEncoder::CJPEGEncoder(int width, int height)
 
 CJPEGEncoder::~CJPEGEncoder()
 {
-    //Ïú»Ùº¯Êý
+    //é”€æ¯å‡½ï¿½?
     av_free(pCodec);
     av_free(pCodecCtx);
     av_free(pPicture);
@@ -74,7 +74,7 @@ CJPEGEncoder::~CJPEGEncoder()
 
 int CJPEGEncoder::Encode(unsigned char* data)
 {
-    //Write Header Ð´ÎÄ¼þÍ·
+    //Write Header å†™æ–‡ä»¶å¤´
     int ySize = pCodecCtx->width * pCodecCtx->height;
     memcpy(pictureBuf, data, ySize * 3 / 2);
     pPicture->data[0] = pictureBuf;                    // Y

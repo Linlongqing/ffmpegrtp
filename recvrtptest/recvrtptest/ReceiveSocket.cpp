@@ -15,7 +15,7 @@ CReceiveSocket::CReceiveSocket()
     sockServer = socket(AF_INET, SOCK_STREAM, 0);
     addrServer.sin_addr.S_un.S_addr = htonl(INADDR_ANY); //INADDR_ANY表示任何IP
     addrServer.sin_family = AF_INET;
-    addrServer.sin_port = htons(6000); //绑定端口6000
+    addrServer.sin_port = htons(8001); //绑定端口6000
     bind(sockServer, (SOCKADDR*)& addrServer, sizeof(SOCKADDR));
 }
 
@@ -61,10 +61,10 @@ int CReceiveSocket::ReceiveFromClient(char* recvBuf, int recvBufLen)
         std::cout << "pos:" << pos << "/"<< header.dataSize <<std::endl;
         if (pos >= header.dataSize)
         {
+            //send(sockClient, "linglongqing", 10, 1);
             break;
         }
     }
-
     std::cout << "length:" << len << std::endl;
     memcpy(pData, recvBuf, header.dataSize);
     SetSize(header.width, header.height, header.dataSize);

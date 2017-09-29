@@ -1,4 +1,4 @@
-/****************************************************************************
+ï»¿/****************************************************************************
 filename:           SendSocket.h
 Author:             linshufei
 Date:               2017/9/19
@@ -10,27 +10,21 @@ Discription:
 #include <winsock2.h>
 #include <stdio.h>
 #include <iostream>
+#ifdef _WIN32
 #pragma comment(lib,"ws2_32.lib")
+#endif
 #define MAX_IMAGE_SIZE 1920 * 1080 
 #define DATA_ADDR 5;
 #define SERVER_TYPE 0;
-
-//ÎÄ¼şÍ·½á¹¹Ìå
-typedef struct SImageHeader
-{
-    int width;          //Í¼Æ¬µÄ¿í¶È
-    int height;         //Í¼Æ¬µÄ¸ß¶È
-    int serverType;     //ÇëÇóµÄ·şÎñÀàĞÍ
-    int dataOffset;     //Í¼Æ¬Êı¾İÍ·µÄÎ»ÖÃ
-    int dataSize;       //Í¼Æ¬´óĞ¡
-} SImageHeader;
 
 class CSendSocket
 {
 public:
     WSADATA wsaData;
-    SOCKET sockClient;          //¿Í»§¶ËSocket
-    SOCKADDR_IN addrServer;     //·şÎñ¶ËµØÖ·
+    SOCKET sockClient;          //å®¢æˆ·ç«¯Socket
+    SOCKET sockServer;          //æœåŠ¡å™¨Socket
+    SOCKADDR_IN addrClient;     //å®¢æˆ·ç«¯åœ°å€
+    SOCKADDR_IN addrServer;     //æœåŠ¡ç«¯åœ°å€
 
     int width;
     int height;
@@ -40,5 +34,7 @@ public:
     int Connect2Server();  
     int Send2Server(char* pData, int size);
     int GetSize(int w, int h);
+    int RecvRes();
+    int RecvImage(char* &pImage, int &sizeImage);
 };
 

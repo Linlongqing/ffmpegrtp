@@ -43,10 +43,9 @@ private:
 public:
 	CJPEGDecoder();
 	~CJPEGDecoder();
-	int Decode(uint8_t *pDataIn, int nInSize, uint8_t *pDataOut);
+	int Decode(uint8_t *pDataIn, int nInSize);
 	int GetSize(int& width, int& height);
 	int GetData(uint8_t *pData);
-
 };
 
 #endif

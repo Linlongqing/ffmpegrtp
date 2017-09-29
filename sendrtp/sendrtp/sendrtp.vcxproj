@@ -128,6 +128,7 @@
   </ItemDefinitionGroup>
   <ItemGroup>
     <ClCompile Include="..\..\src\H264Encoder.cpp" />
+    <ClCompile Include="JPEGDecoder.cpp" />
     <ClCompile Include="JPEGEncoder.cpp" />
     <ClCompile Include="SendRTP.cpp" />
     <ClCompile Include="sendrtptest.cpp" />
@@ -137,6 +138,8 @@
   </ItemGroup>
   <ItemGroup>
     <ClInclude Include="..\..\src\H264Encoder.h" />
+    <ClInclude Include="dataheader.h" />
+    <ClInclude Include="JPEGDecoder.h" />
     <ClInclude Include="JPEGEncoder.h" />
     <ClInclude Include="SendRTP.h" />
     <ClInclude Include="SendSocket.h" />

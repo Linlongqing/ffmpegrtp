@@ -43,8 +43,6 @@ public:
     CJPEGEncoder(int width, int height);
     ~CJPEGEncoder();
     int Encode(unsigned char* data);
-    int SetSize(int width, int height);
-
 private:
     //encoder message
     AVOutputFormat* fmt = NULL;

@@ -50,7 +50,7 @@ void SendRTP::SendH264Nalu(uint8_t *h264Buf, int bufLen){
 
             // the first packet or the second last packet 
             if ((0 == sendPacket) || (sendPacket < allPacket && 0 != sendPacket))
-            {
+            {  
                 sess.SetDefaultMark(false);
                 status = sess.SendPacket((void *)&pSendBuf[sendPacket * MAXLEN], MAXLEN);
                 CheckError(status);
@@ -90,7 +90,7 @@ void SendRTP::Init(void)
 
     //RTPSession sess;
     uint16_t portBase = 6666;  //local portbase
-    uint16_t destPort = 8000;
+    uint16_t destPort = 8004;
     uint8_t destIP[] = { 192, 168, 179, 129 };  //目标IP地址
 
     RTPUDPv4TransmissionParams transParams;     //传输参数
